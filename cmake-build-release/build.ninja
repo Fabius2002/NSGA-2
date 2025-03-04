@@ -12,7 +12,7 @@
 
 # =============================================================================
 # Project: NSGA_2
-# Configurations: Debug
+# Configurations: Release
 # =============================================================================
 
 #############################################
@@ -24,7 +24,7 @@ ninja_required_version = 1.5
 #############################################
 # Set configuration variable for custom commands.
 
-CONFIGURATION = Debug
+CONFIGURATION = Release
 # =============================================================================
 # Include auxiliary files.
 
@@ -39,7 +39,7 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = /home/fabius/CLionProjects/NSGA-2/cmake-build-debug/
+cmake_ninja_workdir = /home/fabius/CLionProjects/NSGA-2/cmake-build-release/
 # =============================================================================
 # Object build statements for EXECUTABLE target NSGA_2
 
@@ -49,39 +49,33 @@ cmake_ninja_workdir = /home/fabius/CLionProjects/NSGA-2/cmake-build-debug/
 
 build cmake_object_order_depends_target_NSGA_2: phony || .
 
-build CMakeFiles/NSGA_2.dir/main.cpp.o: CXX_COMPILER__NSGA_2_unscanned_Debug /home/fabius/CLionProjects/NSGA-2/main.cpp || cmake_object_order_depends_target_NSGA_2
+build CMakeFiles/NSGA_2.dir/main.cpp.o: CXX_COMPILER__NSGA_2_unscanned_Release /home/fabius/CLionProjects/NSGA-2/main.cpp || cmake_object_order_depends_target_NSGA_2
   DEP_FILE = CMakeFiles/NSGA_2.dir/main.cpp.o.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/NSGA_2.dir
   OBJECT_FILE_DIR = CMakeFiles/NSGA_2.dir
 
-build CMakeFiles/NSGA_2.dir/NSGA.cpp.o: CXX_COMPILER__NSGA_2_unscanned_Debug /home/fabius/CLionProjects/NSGA-2/NSGA.cpp || cmake_object_order_depends_target_NSGA_2
+build CMakeFiles/NSGA_2.dir/NSGA.cpp.o: CXX_COMPILER__NSGA_2_unscanned_Release /home/fabius/CLionProjects/NSGA-2/NSGA.cpp || cmake_object_order_depends_target_NSGA_2
   DEP_FILE = CMakeFiles/NSGA_2.dir/NSGA.cpp.o.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/NSGA_2.dir
   OBJECT_FILE_DIR = CMakeFiles/NSGA_2.dir
 
-build CMakeFiles/NSGA_2.dir/Help.cpp.o: CXX_COMPILER__NSGA_2_unscanned_Debug /home/fabius/CLionProjects/NSGA-2/Help.cpp || cmake_object_order_depends_target_NSGA_2
+build CMakeFiles/NSGA_2.dir/Help.cpp.o: CXX_COMPILER__NSGA_2_unscanned_Release /home/fabius/CLionProjects/NSGA-2/Help.cpp || cmake_object_order_depends_target_NSGA_2
   DEP_FILE = CMakeFiles/NSGA_2.dir/Help.cpp.o.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/NSGA_2.dir
   OBJECT_FILE_DIR = CMakeFiles/NSGA_2.dir
 
-build CMakeFiles/NSGA_2.dir/Crossover.cpp.o: CXX_COMPILER__NSGA_2_unscanned_Debug /home/fabius/CLionProjects/NSGA-2/Crossover.cpp || cmake_object_order_depends_target_NSGA_2
+build CMakeFiles/NSGA_2.dir/Crossover.cpp.o: CXX_COMPILER__NSGA_2_unscanned_Release /home/fabius/CLionProjects/NSGA-2/Crossover.cpp || cmake_object_order_depends_target_NSGA_2
   DEP_FILE = CMakeFiles/NSGA_2.dir/Crossover.cpp.o.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/NSGA_2.dir
   OBJECT_FILE_DIR = CMakeFiles/NSGA_2.dir
 
-build CMakeFiles/NSGA_2.dir/Mutator.cpp.o: CXX_COMPILER__NSGA_2_unscanned_Debug /home/fabius/CLionProjects/NSGA-2/Mutator.cpp || cmake_object_order_depends_target_NSGA_2
+build CMakeFiles/NSGA_2.dir/Mutator.cpp.o: CXX_COMPILER__NSGA_2_unscanned_Release /home/fabius/CLionProjects/NSGA-2/Mutator.cpp || cmake_object_order_depends_target_NSGA_2
   DEP_FILE = CMakeFiles/NSGA_2.dir/Mutator.cpp.o.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/NSGA_2.dir
-  OBJECT_FILE_DIR = CMakeFiles/NSGA_2.dir
-
-build CMakeFiles/NSGA_2.dir/Problem.cpp.o: CXX_COMPILER__NSGA_2_unscanned_Debug /home/fabius/CLionProjects/NSGA-2/Problem.cpp || cmake_object_order_depends_target_NSGA_2
-  DEP_FILE = CMakeFiles/NSGA_2.dir/Problem.cpp.o.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/NSGA_2.dir
   OBJECT_FILE_DIR = CMakeFiles/NSGA_2.dir
 
@@ -93,8 +87,8 @@ build CMakeFiles/NSGA_2.dir/Problem.cpp.o: CXX_COMPILER__NSGA_2_unscanned_Debug 
 #############################################
 # Link the executable NSGA_2
 
-build NSGA_2: CXX_EXECUTABLE_LINKER__NSGA_2_Debug CMakeFiles/NSGA_2.dir/main.cpp.o CMakeFiles/NSGA_2.dir/NSGA.cpp.o CMakeFiles/NSGA_2.dir/Help.cpp.o CMakeFiles/NSGA_2.dir/Crossover.cpp.o CMakeFiles/NSGA_2.dir/Mutator.cpp.o CMakeFiles/NSGA_2.dir/Problem.cpp.o
-  FLAGS = -g
+build NSGA_2: CXX_EXECUTABLE_LINKER__NSGA_2_Release CMakeFiles/NSGA_2.dir/main.cpp.o CMakeFiles/NSGA_2.dir/NSGA.cpp.o CMakeFiles/NSGA_2.dir/Help.cpp.o CMakeFiles/NSGA_2.dir/Crossover.cpp.o CMakeFiles/NSGA_2.dir/Mutator.cpp.o
+  FLAGS = -O3 -DNDEBUG
   OBJECT_DIR = CMakeFiles/NSGA_2.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -106,7 +100,7 @@ build NSGA_2: CXX_EXECUTABLE_LINKER__NSGA_2_Debug CMakeFiles/NSGA_2.dir/main.cpp
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/fabius/CLionProjects/NSGA-2/cmake-build-debug && /home/fabius/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /home/fabius/CLionProjects/NSGA-2/cmake-build-release && /home/fabius/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -117,7 +111,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/fabius/CLionProjects/NSGA-2/cmake-build-debug && /home/fabius/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake --regenerate-during-build -S/home/fabius/CLionProjects/NSGA-2 -B/home/fabius/CLionProjects/NSGA-2/cmake-build-debug
+  COMMAND = cd /home/fabius/CLionProjects/NSGA-2/cmake-build-release && /home/fabius/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake --regenerate-during-build -S/home/fabius/CLionProjects/NSGA-2 -B/home/fabius/CLionProjects/NSGA-2/cmake-build-release
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -133,7 +127,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 
 #############################################
-# Folder: /home/fabius/CLionProjects/NSGA-2/cmake-build-debug
+# Folder: /home/fabius/CLionProjects/NSGA-2/cmake-build-release
 
 build all: phony NSGA_2
 

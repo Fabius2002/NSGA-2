@@ -8,4 +8,9 @@ add_executable(NSGA_2 main.cpp
         NSGA.hpp
         Help.hpp
         NSGA.cpp
-        Help.cpp)
+        Help.cpp
+        Crossover.hpp
+        Crossover.cpp
+        Mutator.hpp
+        Mutator.cpp
+)

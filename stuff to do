@@ -1,0 +1,12 @@
+more mutators
+more selectors
+more standard problems
+think about how to make it not dependent on double everywhere maybe for autotuning
+think about using Xoshiro256+
+add performance metrics
+add debug mode maybe
+
+try out matrix tilling example to autotune
+
+
+make it so the export take names of decision sp;ace, which are given by problem maybe
