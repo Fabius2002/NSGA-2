@@ -3,24 +3,22 @@
 #include <iostream>
 #include <vector>
 #include <chrono>
-int main() {
-    // Define the problem (SCH1)
-    SCH1 problem;
+int main(int argc, char **argv) {
+    const ZDT3 problem;
+    int population_size = 10;
+    int generation_count = 100;
+    double crossover_alpha = 0.5;
+    double mutation_distribution = 20;
+    double mutation_probability = 0.5;
 
-    // Define population size
-    constexpr int population_size = 10 ; // Larger population size
 
-    // Initialize the NSGA solver
-    NSGA nsga_solver(&problem, population_size);
+
+    NSGA nsga_solver(&problem, population_size,generation_count,crossover_alpha,mutation_distribution,mutation_probability);
     auto start = std::chrono::high_resolution_clock::now();
-    nsga_solver.run(100);
+    nsga_solver.run();
     auto stop = std::chrono::high_resolution_clock::now();
-    for (int i=0;i<population_size;i++) {
-        std::cout<<nsga_solver.Decision_space[i] << " " << std::endl ;
-    }
     auto duration = duration_cast<std::chrono::microseconds>(stop - start);
-    std::cout << "time taken :" << duration.count();
-    nsga_solver.export_data();
+    nsga_solver.export_data(duration);
 }
 //20000000
 //5000000

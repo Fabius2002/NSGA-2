@@ -1,6 +1,8 @@
 #include "Help.hpp"
 #include <vector>
 #include  <algorithm>
+#include <complex>
+
 std::vector<std::vector<int>> fast_non_dominated_sort(const std::vector<double> &objective_space,std::vector<int> &rank,const int population_size,const Problem* problem){
     auto Dominated_points = std::vector<std::vector<int>>(population_size);
     auto Domination_count = std::vector<int>(population_size);
@@ -75,7 +77,7 @@ std::vector<int> sort_after_obj(const std::vector<double>& objective_space, cons
     }
     std::ranges::sort(obj_and_ind);
     std::vector<int> sorted_indices;
-    sorted_indices.reserve(population_size);
+    sorted_indices.reserve(front.size());
     for (const auto& tuple : obj_and_ind) {
         sorted_indices.push_back(std::get<1>(tuple));
     }
@@ -96,3 +98,4 @@ std::vector<int> sort_after_crowding_distance(const std::vector<double>& crowdin
     }
     return sorted_indices;
 }
+

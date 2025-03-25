@@ -1,5 +1,0 @@
-templates fuer verschiedene probleme verwenden statt virtualisierung
-templates fuer die verschieden varianten der dominanz vergleich einfuehren in abhaengigkeit von der dimension
-standard vector durch raw vectors ersetzten
-sort_after_obj looks unefficient right now but i do not have any idea(maybe not using tuples and instead just use 2 raw arrays but idk)
-pre calculate disrtibutions for randomness and store in nsga maybe
