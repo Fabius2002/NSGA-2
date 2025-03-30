@@ -60,7 +60,7 @@ void NSGA::generate_offspring_population(const double alpha,const double mutatio
     }
 }
 void NSGA::run() {
-
+    //for debug
     std::ofstream output("nsga_results_hypervolume.csv");
 
 
@@ -70,8 +70,11 @@ void NSGA::run() {
     auto fronts=fast_non_dominated_sort(Objective_space,rank,population_size,problem);
     generate_offspring_population(crossover_alpha, mutation_distribution,mutation_probability);
     int gen=1;
+
+    //for debug
     output<< "hypervolume"<<std::endl;
     output<< calculate_hypervolume(fronts[0])<<std::endl;
+
     while (gen<generation_max) {
         problem->evaluate(Decision_space,population_size,Objective_space,population_size);
         auto fronts=fast_non_dominated_sort(Objective_space,rank,population_size*2,problem);
@@ -103,6 +106,7 @@ void NSGA::run() {
         problem->evaluate(Decision_space,population_size,Objective_space,0);
         //change this or remove it for efficiency pls
         output<< calculate_hypervolume(fronts[0])<<std::endl;
+        //just for debugging
         std::cout << gen<<std::endl;
         Decision_space.resize(population_size*2*problem->get_Decision_space_dim());
         generate_offspring_population(0.3,mutation_distribution,mutation_probability);
@@ -154,15 +158,16 @@ double NSGA::calculate_generational_distance(const Problem* problem) const {
 }
 
 double NSGA::calculate_hypervolume(const std::vector<int>& front) const {
-    std::vector<std::vector<double>> sort;
-    for (int i=0;i<front.size();i++) {
-        sort.push_back({Objective_space[front[i]*2],Objective_space[front[i]*2+1]});
+    std::vector<std::vector<double>> objectives;
+    objectives.reserve(population_size);
+    for (const int i : front) {
+        objectives.push_back({Objective_space[i*2],Objective_space[i*2+1]});
     }
-    std::ranges::sort(sort);
+    std::ranges::sort(objectives);
     const std::vector<double> ref=problem->get_reference_point();
     double hypervolume=0;
-    for (int i=0;i<sort.size()-1;i++) {
-        hypervolume=hypervolume+(sort[i+1][0]-sort[i][0])*(ref[1]-sort[i][1]);
+    for (int i=0;i<objectives.size()-1;i++) {
+        hypervolume=hypervolume+(objectives[i+1][0]-objectives[i][0])*(ref[1]-objectives[i][1]);
     }
-    return hypervolume+(ref[0]-sort.back()[0])*(ref[1]-sort.back()[1]);
+    return hypervolume+(ref[0]-objectives.back()[0])*(ref[1]-objectives.back()[1]);
 }
