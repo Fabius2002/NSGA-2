@@ -1,10 +1,13 @@
 #ifndef NSGA_H
 #define NSGA_H
 #include <chrono>
-
 #include "Problem.hpp"
 #include <vector>
 #include <random>
+
+#if EXPORT
+#include "Export.hpp"
+#endif
 
 struct NSGA {
     std::vector<double> Decision_space;
@@ -18,7 +21,8 @@ struct NSGA {
     const double mutation_probability;
     const double crossover_alpha;
     const int generation_max;
-    NSGA(const Problem* problem, const int population_size,const int generation_max,const double crossover_alpha,const double mutation_distribution=20, const double mutation_probability=1,int seed=0)
+    NSGA(const Problem* problem, const int population_size,const int generation_max,const double crossover_alpha,
+        const double mutation_distribution=20, const double mutation_probability=1,int seed=0)
         : population_size(population_size), problem(problem), mt((seed == 0) ? std::random_device{}() : seed),
           mutation_distribution(mutation_distribution),
           mutation_probability(mutation_probability), crossover_alpha(crossover_alpha), generation_max(generation_max) {
@@ -28,15 +32,18 @@ struct NSGA {
         rank = std::vector<int>(population_size * 2);
     };
     ~NSGA() = default;
-    void run();
+
+#if EXPORT
+    void run(Export* exporter,int run_number=1);
+#else
+    void run(int run_number=1);
+#endif
+
     void init_population();
     void crowding_distance_calculation(const std::vector<int>& front);
     [[nodiscard]] int binary_tournament_selection();
     void generate_offspring_population(double alpha, double mutation_distribution, double mutation_probability);
-    void export_data(std::chrono::microseconds time);
-    //this is right for this very specific case but pls change soon
-    double calculate_generational_distance(const Problem *problem) const;
-    double calculate_hypervolume(const std::vector<int> &front) const;
+    [[nodiscard]] double calculate_hypervolume_2d(const std::vector<int> &front) const;
 
 };
 #endif

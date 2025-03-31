@@ -6,8 +6,13 @@
 #include <iostream>
 
 #include "Crossover.hpp"
+#include "Export.hpp"
 #include "Help.hpp"
 #include "Mutator.hpp"
+
+#if DEBUG
+#include "Debug.hpp"
+#endif
 
 void NSGA::init_population() {
     const auto boundaries=problem->get_Decision_boundaries();
@@ -23,9 +28,9 @@ void NSGA::init_population() {
     }
 }
 void NSGA::crowding_distance_calculation(const std::vector<int>& front) {
-    auto front_values=std::vector<double>(front.size());//for front specific
-    for (const int i : front) {//for front specific
-        crowding_distance[i]=0.0;//for front specific
+    auto front_values=std::vector<double>(front.size());
+    for (const int i : front) {
+        crowding_distance[i]=0.0;
     }
     for (int obj=0;obj<problem->get_Objective_space_dim();obj++) {
         std::vector<int> sorted_index=sort_after_obj(Objective_space,obj,problem->get_Objective_space_dim(),population_size,front);
@@ -59,19 +64,27 @@ void NSGA::generate_offspring_population(const double alpha,const double mutatio
         polynomial_mutation(Decision_space,index+1,mutation_distribution,mutation_probability,problem,mt);
     }
 }
-void NSGA::run() {
-
-    std::ofstream output("nsga_results_hypervolume.csv");
-
+#if EXPORT
+void NSGA::run(Export * exporter,const int run_number) {
+#else
+void NSGA::run(const int run_number) {
+#endif
 
     const int max_dim=problem->get_Decision_space_dim();
     init_population();
     problem->evaluate(Decision_space,population_size,Objective_space,0);
-    auto fronts=fast_non_dominated_sort(Objective_space,rank,population_size,problem);
+    const auto fronts=fast_non_dominated_sort(Objective_space,rank,population_size,problem);
     generate_offspring_population(crossover_alpha, mutation_distribution,mutation_probability);
     int gen=1;
-    output<< "hypervolume"<<std::endl;
-    output<< calculate_hypervolume(fronts[0])<<std::endl;
+
+#if EXPORT
+    exporter->stash_hypervolume(calculate_hypervolume_2d(fronts[0]));
+#endif
+
+#if DEBUG
+    Debug::debug_init(gen,generation_max,calculate_hypervolume_2d(fronts[0]),fronts[0].size(),population_size);
+#endif
+
     while (gen<generation_max) {
         problem->evaluate(Decision_space,population_size,Objective_space,population_size);
         auto fronts=fast_non_dominated_sort(Objective_space,rank,population_size*2,problem);
@@ -101,62 +114,29 @@ void NSGA::run() {
         }
         Decision_space=new_generation;
         problem->evaluate(Decision_space,population_size,Objective_space,0);
-        //change this or remove it for efficiency pls
-        output<< calculate_hypervolume(fronts[0])<<std::endl;
-        std::cout << gen<<std::endl;
+
+#if EXPORT
+        exporter->stash_hypervolume(calculate_hypervolume_2d(fronts[0]));
+#endif
+#if DEBUG
+Debug::debug_gen(gen,generation_max,calculate_hypervolume_2d(fronts[0]),fronts[0].size(),population_size);
+#endif
         Decision_space.resize(population_size*2*problem->get_Decision_space_dim());
-        generate_offspring_population(0.3,mutation_distribution,mutation_probability);
+        generate_offspring_population(crossover_alpha,mutation_distribution,mutation_probability);
         gen=gen+1;
     }
-
+#if DEBUG
+    Debug::debug_final(run_number,problem,generation_max,population_size,mutation_distribution,mutation_probability,crossover_alpha);
+#endif
 }
 
-void NSGA::export_data(std::chrono::microseconds time) {
-    std::ofstream output("nsga_results.csv");
-    for (int dim=0;dim<problem->get_Objective_space_dim();dim++) {
-        output <<"x"<<dim+1<<", ";
-    }
-    output << std::endl;
-    for (int i=0;i<population_size;i++) {
-        for (int dim=0;dim<problem->get_Objective_space_dim();dim++) {
-            output << Objective_space[i*problem->get_Objective_space_dim()+dim] ;
-            if (i<population_size) output << ", ";
-        }
-        output << std::endl;
-    }
-    output.close();
-
-    std::ofstream output2("nsga_results.txt");
-    output2<< population_size << std::endl << generation_max << std::endl << mutation_distribution << std::endl << mutation_probability << std::endl << time << std::endl;
-    output2.close();
-    const char* command = "python3 /home/fabius/PycharmProjects/PythonProject/print_results.py arg1 arg2";
-    int status = std::system(command);
 
 
-}
-double NSGA::calculate_generational_distance(const Problem* problem) const {
-    double result=0;
-    std::vector<double> comp;
-    comp.push_back(std::pow(0,2));
-    comp.push_back(std::pow(0-2,2));
-    comp.push_back(std::pow(2,2));
-    comp.push_back(std::pow(2-2,2));
-    for (int i=0;i<population_size;i++) {
-        if (Decision_space[i]>=0&&Decision_space[i]<=2){}
-        else {
-            std::vector<double> value;
-            value.push_back(std::pow(Decision_space[i],2));
-            value.push_back(std::pow(Decision_space[i]-2,2));
-            result=result+std::min(std::sqrt(std::pow(value[0]-comp[0],2)+std::pow(value[1]-comp[1],2)),std::sqrt(std::pow(value[0]-comp[2],2)+std::pow(value[1]-comp[3],2)));
-        }
-    }
-    return result/population_size;
-}
 
-double NSGA::calculate_hypervolume(const std::vector<int>& front) const {
+double NSGA::calculate_hypervolume_2d(const std::vector<int>& front) const {
     std::vector<std::vector<double>> sort;
-    for (int i=0;i<front.size();i++) {
-        sort.push_back({Objective_space[front[i]*2],Objective_space[front[i]*2+1]});
+    for (int i : front) {
+        sort.push_back({Objective_space[i*2],Objective_space[i*2+1]});
     }
     std::ranges::sort(sort);
     const std::vector<double> ref=problem->get_reference_point();

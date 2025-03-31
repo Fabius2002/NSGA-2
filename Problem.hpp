@@ -3,6 +3,12 @@
 #include <cmath>
 #include <vector>
 
+
+#if DEBUG||EXPORT
+#include <fstream>
+#endif
+
+
 struct Problem {
     [[nodiscard]] virtual int get_Decision_space_dim() const =0;
     [[nodiscard]] virtual int get_Objective_space_dim()const =0;
@@ -10,6 +16,13 @@ struct Problem {
     [[nodiscard]] virtual std::vector<std::vector<double>> get_Decision_boundaries()const =0;
     virtual void evaluate(const std::vector<double>& input,int population_size, std::vector<double>& result,int offset) const = 0;
     virtual ~Problem() = default;
+
+#if DEBUG||EXPORT
+#define output_prob() debug_output_prob()
+    [[nodiscard]] virtual std::string debug_output_prob() const =0;
+#else
+#define output_prob()
+#endif
 };
 
 struct SCH1 final :Problem{
@@ -35,6 +48,12 @@ struct SCH1 final :Problem{
         return Decision_boundaries;
     }
     [[nodiscard]] std::vector<double> get_reference_point() const override{return{9.1,25.1};}
+
+#if DEBUG||EXPORT
+    [[nodiscard]] std::string debug_output_prob() const override{
+        return "SCH1";
+    }
+#endif
 };
 
 
@@ -70,6 +89,12 @@ struct ZDT3 final :Problem {
             result[(i+offset)*Objective_space_dim+1]=Objective_fun_2(input,i+offset);
         }
     };
+
+#if DEBUG||EXPORT
+    [[nodiscard]] std::string debug_output_prob() const override {
+        return "ZDT3";
+    }
+#endif
 };
 
 #endif //PROBLEM_H

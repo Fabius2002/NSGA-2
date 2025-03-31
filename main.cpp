@@ -1,27 +1,40 @@
 #include "Problem.hpp"
 #include "NSGA.hpp"
-#include <iostream>
-#include <vector>
 #include <chrono>
+
+#include "Debug.hpp"
 int main(int argc, char **argv) {
+#if EXPORT
+    constexpr export_type type_of_export=HYPERVOLUME_COMPARISON;
+    Export exporter;
+    const std::string directory=Export::create_directory();
+#endif
+
+
     const ZDT3 problem;
-    int population_size = 10;
-    int generation_count = 100;
-    double crossover_alpha = 0.5;
-    double mutation_distribution = 20;
-    double mutation_probability = 0.5;
+    constexpr int seed=0;
+    for (int run=1;run<NOISE+1;run++) {
+    NSGA nsga_solver(&problem, POPULATION_SIZE,GENERATION_COUNT,CROSSOVER_ALPHA,
+        MUTATION_DISTRIBUTION,MUTATION_PROBABILITY,seed);
+    const auto start = std::chrono::high_resolution_clock::now();
+#if EXPORT
+        nsga_solver.run(&exporter,run);
+#else
+        nsga_solver.run(run);
+#endif
+    const auto stop = std::chrono::high_resolution_clock::now();
+    const auto duration = duration_cast<
+        std::chrono::microseconds>(stop - start);
+#if EXPORT
+        exporter.export_data(duration,run,type_of_export,&problem,POPULATION_SIZE,GENERATION_COUNT,
+            CROSSOVER_ALPHA,MUTATION_DISTRIBUTION,MUTATION_PROBABILITY,seed,nsga_solver.Objective_space,directory);
+#endif
+#if DEBUG
+    Debug::debug_exec_time(duration);
+#endif
+    }
+#if EXPORT
+    exporter.plot_data(NOISE,type_of_export,directory);
+#endif
 
-
-
-    NSGA nsga_solver(&problem, population_size,generation_count,crossover_alpha,mutation_distribution,mutation_probability);
-    auto start = std::chrono::high_resolution_clock::now();
-    nsga_solver.run();
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = duration_cast<std::chrono::microseconds>(stop - start);
-    nsga_solver.export_data(duration);
 }
-//20000000
-//5000000
-
-
-//52832,
