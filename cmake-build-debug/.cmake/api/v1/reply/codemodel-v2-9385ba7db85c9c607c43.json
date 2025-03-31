@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Release-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.30"
@@ -19,7 +19,7 @@
 					]
 				}
 			],
-			"name" : "Release",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "NSGA_2::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-NSGA_2-Release-aa946b124136d22282de.json",
+					"jsonFile" : "target-NSGA_2-Debug-870f88c5eabfce043f2f.json",
 					"name" : "NSGA_2",
 					"projectIndex" : 0
 				}
@@ -49,7 +49,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/fabius/CLionProjects/NSGA-2/cmake-build-release",
+		"build" : "/home/fabius/CLionProjects/NSGA-2/cmake-build-debug",
 		"source" : "/home/fabius/CLionProjects/NSGA-2"
 	},
 	"version" : 
