@@ -129,6 +129,12 @@ struct ZDT2 final :Problem {
             result[(i+offset)*Objective_space_dim+0]=Objective_fun_1(input[i*Decision_space_dim+offset*Decision_space_dim]);
             result[(i+offset)*Objective_space_dim+1]=Objective_fun_2(input,i+offset);
         }
-    };
+    }
+
+#if DEBUG||EXPORT
+    [[nodiscard]] std::string debug_output_prob() const override {
+        return "ZDT2";
+    }
+#endif
 };
 #endif //PROBLEM_H

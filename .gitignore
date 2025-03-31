@@ -9,10 +9,11 @@ cmake-build-release/
 *.so
 *.exe
 *.log
-
+*.png
+*.csv
+*.txt
 CMakeFiles/
 CMakeScripts/
 Makefile
 cmake_install.cmake
 
-Runs/

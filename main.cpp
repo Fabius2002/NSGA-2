@@ -5,13 +5,13 @@
 #include "Debug.hpp"
 int main(int argc, char **argv) {
 #if EXPORT
-    constexpr export_type type_of_export=HYPERVOLUME_COMPARISON;
+    constexpr export_type type_of_export=SIMPLE;
     Export exporter;
     const std::string directory=Export::create_directory();
 #endif
 
 
-    const ZDT3 problem;
+    const ZDT2 problem;
     constexpr int seed=0;
     for (int run=1;run<NOISE+1;run++) {
     NSGA nsga_solver(&problem, POPULATION_SIZE,GENERATION_COUNT,CROSSOVER_ALPHA,
