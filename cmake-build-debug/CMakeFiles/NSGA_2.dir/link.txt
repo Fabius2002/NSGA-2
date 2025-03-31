@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/NSGA_2.dir/main.cpp.o CMakeFiles/NSGA_2.dir/NSGA.cpp.o CMakeFiles/NSGA_2.dir/Help.cpp.o CMakeFiles/NSGA_2.dir/Crossover.cpp.o CMakeFiles/NSGA_2.dir/Mutator.cpp.o CMakeFiles/NSGA_2.dir/Export.cpp.o CMakeFiles/NSGA_2.dir/Debug.cpp.o -o NSGA_2

@@ -1,3 +1,0 @@
-/home/fabius/CLionProjects/NSGA-2/cmake-build-release/CMakeFiles/NSGA_2.dir
-/home/fabius/CLionProjects/NSGA-2/cmake-build-release/CMakeFiles/edit_cache.dir
-/home/fabius/CLionProjects/NSGA-2/cmake-build-release/CMakeFiles/rebuild_cache.dir
