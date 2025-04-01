@@ -55,28 +55,33 @@ int NSGA::binary_tournament_selection(){
     return dist2(mt)==1 ? parent_x : parent_y;
 }
 
-void NSGA::generate_offspring_population(const double alpha,const double mutation_distribution,double mutation_probability) {
+void NSGA::generate_offspring_population(const double alpha,const double mutation_distribution, const double mutation_probability,const bool uneven_count) {
     for (int index=population_size;index<population_size*2;index=index+2) {
         const int parent_x=binary_tournament_selection();
         const int parent_y=binary_tournament_selection();
-        blend_crossover(parent_x,parent_y,alpha,Decision_space,problem,index,mt);
+        blend_crossover(parent_x,parent_y,alpha,Decision_space,problem,index,mt,uneven_count,population_size);
         polynomial_mutation(Decision_space,index,mutation_distribution,mutation_probability,problem,mt);
+        if (uneven_count) {
+            if (!index+1==population_size)
         polynomial_mutation(Decision_space,index+1,mutation_distribution,mutation_probability,problem,mt);
+        }
     }
 }
 #if EXPORT
 void NSGA::run(Export * exporter,const int run_number) {
 #else
-void NSGA::run(const int run_number) {
+double NSGA::run(const int run_number) {
 #endif
-
+    double hypervolume=0;
     const int max_dim=problem->get_Decision_space_dim();
+    const bool uneven_count=(population_size%2==1);
     init_population();
     problem->evaluate(Decision_space,population_size,Objective_space,0);
     const auto fronts=fast_non_dominated_sort(Objective_space,rank,population_size,problem);
-    generate_offspring_population(crossover_alpha, mutation_distribution,mutation_probability);
+    generate_offspring_population(crossover_alpha, mutation_distribution,mutation_probability,uneven_count);
     int gen=1;
-
+    if (!gen<generation_max)
+        hypervolume=calculate_hypervolume_2d(fronts[0]);
 #if EXPORT
     exporter->stash_hypervolume(calculate_hypervolume_2d(fronts[0]));
 #endif
@@ -122,12 +127,15 @@ void NSGA::run(const int run_number) {
 Debug::debug_gen(gen,generation_max,calculate_hypervolume_2d(fronts[0]),fronts[0].size(),population_size);
 #endif
         Decision_space.resize(population_size*2*problem->get_Decision_space_dim());
-        generate_offspring_population(crossover_alpha,mutation_distribution,mutation_probability);
+        generate_offspring_population(crossover_alpha,mutation_distribution,mutation_probability, uneven_count);
         gen=gen+1;
+        if (!gen<generation_max)
+            hypervolume=calculate_hypervolume_2d(fronts[0]);
     }
 #if DEBUG
     Debug::debug_final(run_number,problem,generation_max,population_size,mutation_distribution,mutation_probability,crossover_alpha);
 #endif
+    return hypervolume;
 }
 
 

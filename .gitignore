@@ -9,9 +9,13 @@ cmake-build-release/
 *.so
 *.exe
 *.log
-*.png
-*.csv
-*.txt
+
+Runs/**
+!Runs/.gitkeep
+Runs/*.csv
+Runs/*.txt
+Runs/*.png
+
 CMakeFiles/
 CMakeScripts/
 Makefile

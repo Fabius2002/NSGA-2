@@ -21,7 +21,7 @@ add_compile_definitions(GENERATION_COUNT=100)
 add_compile_definitions(CROSSOVER_ALPHA=0.5)
 add_compile_definitions(MUTATION_DISTRIBUTION=20)
 add_compile_definitions(MUTATION_PROBABILITY=0.5)
-add_compile_definitions(NOISE=5)
+add_compile_definitions(NOISE=10)
 
 add_executable(NSGA_2 main.cpp
         Problem.hpp

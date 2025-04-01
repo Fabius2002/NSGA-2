@@ -34,15 +34,15 @@ struct NSGA {
     ~NSGA() = default;
 
 #if EXPORT
-    void run(Export* exporter,int run_number=1);
+    double run(Export* exporter,int run_number=1);
 #else
-    void run(int run_number=1);
+    double run(int run_number=1);
 #endif
 
     void init_population();
     void crowding_distance_calculation(const std::vector<int>& front);
     [[nodiscard]] int binary_tournament_selection();
-    void generate_offspring_population(double alpha, double mutation_distribution, double mutation_probability);
+    void generate_offspring_population(double alpha, double mutation_distribution, double mutation_probability, bool uneven_count);
     [[nodiscard]] double calculate_hypervolume_2d(const std::vector<int> &front) const;
 
 };
