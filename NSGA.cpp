@@ -68,7 +68,7 @@ void NSGA::generate_offspring_population(const double alpha,const double mutatio
     }
 }
 #if EXPORT
-void NSGA::run(Export * exporter,const int run_number) {
+double NSGA::run(Export * exporter,const int run_number) {
 #else
 double NSGA::run(const int run_number) {
 #endif
